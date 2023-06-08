@@ -1,18 +1,12 @@
-# Импортируем объект dp из модуля bot
-from bot import dp
 
-# Импортируем функцию executor из модуля aiogram.utils
+from create_bot import dp
 from aiogram.utils import executor
+from handlers import commands, jrt_math, jrt_math2, jrt_analogia, jrt_grammar, user
 
-# Импортируем модули с обработчиками событий
-from handlers import jrt_math
-
-# Регистрируем обработчик симпатичных животных
-logic_cute_animals.register_cute_animals(dp)
-
-# Регистрируем обработчик викторин
-logic_quiz.register_quiz(dp)
-
-# Запускаем бесконечный цикл опроса бота
-# skip_updates=True говорит боту пропускать необработанные обновления, если такие есть
+commands.register_admin(dp)
+jrt_math.register_quiz(dp)
+jrt_math2.register_quiz2(dp)
+jrt_analogia.register_quiz_analogia(dp)
+jrt_grammar.register_quiz_grammar(dp)
+user.register_quiz_eng(dp)
 executor.start_polling(dp, skip_updates=True)
