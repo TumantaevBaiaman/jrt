@@ -11,7 +11,7 @@ from key.buttons import main_menu
 import data.quiz as quiz_test
 
 
-class FSMChatGPT(StatesGroup):
+class FSMChatGPTEng(StatesGroup):
     poll = State()
     question = 0
     ls = 0
@@ -19,7 +19,7 @@ class FSMChatGPT(StatesGroup):
 
 
 async def cm_start(message: types.Message, state: FSMContext):
-    await bot.send_message(message.chat.id, 'Привет! Проверим твой уровень по английскому.')
+    await bot.send_message(message.chat.id, 'Салам! Англискийден денгээлинди текшеруу башталды.')
     async with state.proxy() as data:
         data['ls'] = 0
         data['result'] = 0
@@ -48,7 +48,7 @@ async def show_poll(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['ls'] += 1
 
-        await FSMChatGPT.poll.set()
+        await FSMChatGPTEng.poll.set()
 
     else:
         async with state.proxy() as data:
@@ -71,8 +71,8 @@ async def show_poll(message: types.Message, state: FSMContext):
             elif 73 <= level < 100:
                 res = 'Intermediate'
 
-        await bot.send_message(message.from_user.id, f"Опрос завершен. \n{result} правильных из 55\nВаш уровень {res.upper()}")
-        await bot.send_message(message.from_user.id, f"\n\nОтчет по неправильным:\n")
+        await bot.send_message(message.from_user.id, f"Тест бутту. \n{result} 55 туура жооптун ичинен\nСиздин денгээл {res.upper()}")
+        await bot.send_message(message.from_user.id, f"\n\nТуура эмес жоортордун жыйынтыгы:\n")
         for i in text.split('\n\n'):
             if i.strip():
                 await bot.send_message(message.from_user.id, f"{i}")
@@ -94,5 +94,5 @@ async def process_poll_answer(callback_query: types.CallbackQuery, state: FSMCon
 
 
 def register_quiz_eng(dp: Dispatcher):
-    dp.register_message_handler(cm_start, Text(equals='✔️Англиский', ignore_case=True))
-    dp.register_callback_query_handler(process_poll_answer, state=FSMChatGPT.poll)
+    dp.register_message_handler(cm_start, Text(equals='✔️Английский', ignore_case=True))
+    dp.register_callback_query_handler(process_poll_answer, state=FSMChatGPTEng.poll)
